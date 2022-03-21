@@ -59,6 +59,7 @@ font-family: 'Source Sans Pro', sans-serif;
   color:${(props) => props.theme.textColor}
 }
 a {
+  color:inherit;
   text-decoration:none;
 }
 `;
