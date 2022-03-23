@@ -6,6 +6,7 @@ import styled from "styled-components"
 import { fetchCoinInfo, fetchPriceTicker } from "./api";
 import Chart from "./Chart";
 import Price from "./Price";
+import { Helmet } from "react-helmet"
 const Title = styled.h1`
 font-size:48px;
 color:${props => props.theme.accentColor};
@@ -130,7 +131,7 @@ function Coin() {
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
-  const {isLoading:infoLoading, data:infoData } = useQuery<InfoData>(["info",coinId], () => fetchCoinInfo(coinId));
+  const {isLoading:infoLoading, data:infoData } = useQuery<InfoData>(["info",coinId], () => fetchCoinInfo(coinId),{refetchInterval:10000});
   const {isLoading:tickersLoading,data:tickersData } = useQuery<PriceData>(["ticker",coinId], () => fetchPriceTicker(coinId));
   //   const [loading, setLoading] = useState(true);
   // const [info, setInfo] = useState<InfoData>();
@@ -151,6 +152,11 @@ function Coin() {
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "Loading...." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>{state?.name ? state.name : loading ? "Loading...." : infoData?.name}</Title>
       </Header>
@@ -166,8 +172,8 @@ function Coin() {
                 <span>{infoData?.symbol}</span>
               </OverviewItem>
               <OverviewItem>
-                <span>Open Source:</span>
-                <span>{infoData?.open_source ? "Yes" : "No"}</span>
+                <span>Price:</span>
+                <span>{`$${tickersData?.quotes.USD.price.toFixed(3)}`}</span>
               </OverviewItem>
             </Overview>
           <Description>{infoData?.description}</Description>
