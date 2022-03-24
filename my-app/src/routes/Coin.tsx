@@ -125,14 +125,16 @@ a{
   display:block;
 }
 `
-function Coin() {
-
+interface ICoinProps{
+  isDark: boolean;
+}
+function Coin({isDark}:ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
-  const {isLoading:infoLoading, data:infoData } = useQuery<InfoData>(["info",coinId], () => fetchCoinInfo(coinId),{refetchInterval:10000});
-  const {isLoading:tickersLoading,data:tickersData } = useQuery<PriceData>(["ticker",coinId], () => fetchPriceTicker(coinId));
+  const { isLoading:infoLoading, data:infoData } = useQuery<InfoData>(["info",coinId], () => fetchCoinInfo(coinId),{refetchInterval:10000});
+  const { isLoading:tickersLoading,data:tickersData } = useQuery<PriceData>(["ticker",coinId], () => fetchPriceTicker(coinId));
   //   const [loading, setLoading] = useState(true);
   // const [info, setInfo] = useState<InfoData>();
   //  const [priceInfo, setPriceInfo] = useState<PriceData>();
@@ -173,7 +175,7 @@ function Coin() {
               </OverviewItem>
               <OverviewItem>
                 <span>Price:</span>
-                <span>{`$${tickersData?.quotes.USD.price.toFixed(3)}`}</span>
+                <span>{`$${tickersData?.quotes?.USD?.price?.toFixed(3)}`}</span>
               </OverviewItem>
             </Overview>
           <Description>{infoData?.description}</Description>
@@ -204,7 +206,7 @@ function Coin() {
               <Price /> 
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart coinId ={coinId} />
+              <Chart isDark={isDark} coinId ={coinId} />
             </Route>
           </Switch>
         </>
