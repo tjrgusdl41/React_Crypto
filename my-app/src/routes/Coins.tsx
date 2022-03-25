@@ -80,7 +80,7 @@ function Coins({toggleDark} : ICoinsProps) {
             pathname: `/${coin.id}`,
             state: {name:coin.name},
           }}>
-            <Img src={`https://cryptoicons.org/api/icon/${coin.symbol.toLowerCase()}/200`}/>
+            <Img src={`https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@bea1a9722a8c63169dcc06e86182bf2c55a76bbc/128/color/btc.png`}/>
             {coin.name}&rarr;
           </Link>
           </Coin>
