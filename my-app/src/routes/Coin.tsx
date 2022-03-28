@@ -160,7 +160,7 @@ function Coin({isDark}:ICoinProps) {
         </title>
       </Helmet>
       <Header>
-        <Title>{state?.name ? state.name : loading ? "Loading...." : infoData?.name}</Title>
+        <Title>{state?.name ? state.name : loading ? "Loading...." : <Link to={`/`}>{infoData?.name}</Link>}</Title>
       </Header>
       {loading ? (<Loader>Loading...</Loader>) : (
         <>
@@ -203,7 +203,7 @@ function Coin({isDark}:ICoinProps) {
           </Tabs>
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price /> 
+              <Price coinId={coinId}/> 
             </Route>
             <Route path={`/:coinId/chart`}>
               <Chart isDark={isDark} coinId ={coinId} />
